@@ -4,7 +4,7 @@ Open zCore
 
 * Introduction
 
-zCore is designed at PWRSemi(closed at 2010), a startup try to develop clean-room PowerPC processor for consumer market. Now The unfinished product is open-sourced.
+zCore is designed at PWRSemi(closed at 2011), a startup try to develop clean-room PowerPC processor for consumer market. Now The unfinished product is open-sourced.
 
 * File Directories
 /asm            assembly example, show how to layout powerpc program, to run on pippo simulation or fpga prototyping
