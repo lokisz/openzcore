@@ -5,26 +5,16 @@ openzcore
 
 zCore is designed at PWRSemi(2009-2011), a startup try to develop clean-room PowerPC processor for consumer market. Now The unfinished product is open-sourced.
 
-
 * File Directories
 pippo-0.9: powerpc isa
-
-/asm            assembly example, show how to layout powerpc program, to run on pippo simulation or fpga prototyping
-
-/board          currently, only xilinx xupv2p board is supported
-
-/rtl            rtl logic implementation, pippo is the code name of first zCore product.
-
-/sim            modelsim simulation files, we will support icarus simulator later
-
-/soc            soc component files, not used currently, because the pippo cbu(core-bridge-unit) is un-verified
-
-/syn            for synthesis 
-
-/testbench      testbench environment
-
+    /asm            assembly example, show how to layout powerpc program, to run on pippo simulation or fpga prototyping
+    /board          currently, only xilinx xupv2p board is supported
+    /rtl            rtl logic implementation, pippo is the code name of first zCore product.
+    /sim            modelsim simulation files, we will support icarus simulator later
+    /soc            soc component files, not used currently, because the pippo cbu(core-bridge-unit) is un-verified
+    /syn            for synthesis 
+    /testbench      testbench environment
 pippo-riscv: unfinished riscv porting
-
 
 * Problem to fix
     When building pippo simulation or implementation, please don't add cbu related files into project
