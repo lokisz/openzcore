@@ -42,4 +42,5 @@ zCore is designed at PWRSemi(2009-2011), a startup try to develop clean-room Pow
     Some rtl logic is directly from previous great open source processor projects, such as Sun Microsystem's MicroSPARC/OpenSPARC T1/T2, Gaisler research's LEON, OpenRISC...
     
 *** IMPORTANT ***
-Author will NOT maintain/update the project.
+
+Author will NOT maintain/update the project ANY MORE.
