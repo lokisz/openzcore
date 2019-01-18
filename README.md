@@ -6,7 +6,8 @@ openzcore
 zCore is designed at PWRSemi(2009-2011), a startup try to develop clean-room PowerPC processor for consumer market. Now The unfinished product is open-sourced.
 
 * File Directories
-pippo-0.9: powerpc isa
+
+    pippo-0.9: powerpc isa
 
     /asm            assembly example, show how to layout powerpc program, to run on pippo simulation or fpga prototyping
 
@@ -22,7 +23,7 @@ pippo-0.9: powerpc isa
     
     /testbench      testbench environment
 
-pippo-riscv: unfinished riscv porting
+    pippo-riscv: unfinished riscv porting
 
 * Problem to fix
     When building pippo simulation or implementation, please don't add cbu related files into project
