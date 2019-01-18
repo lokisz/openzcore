@@ -1,0 +1,89 @@
+SECTIONS
+{
+/*
+* check to see if we defined section starts in the makefile - if not,
+* define them here.
+*
+* Align everything to a 16-byte boundary if you specifying the
+* addresses here.
+*/
+TEXT_START = DEFINED(TEXT_START) ? TEXT_START : 0x00000000;
+IMAGE_TEXT_START = DEFINED(IMAGE_TEXT_START) ? IMAGE_TEXT_START : 0xFFF00000;
+.text TEXT_START : AT (IMAGE_TEXT_START)
+{
+/*
+We build s-record with the .text section located
+at TEXT_START that we're going to load into memory at
+IMAGE_TEXT_START. _img_text_start and _img_text_end
+indicate the locations of the start and end of the text
+segment at the loaded location.
+These values are used by the routine that relocates the text.
+*/
+*(.text)
+*(.rodata)
+*(.rodata1)
+*(.got1);
+}
+/* Save text location in image and the final location to be used
+in x.S */
+_img_text_start = 0xFFF00000;
+_img_text_end = ( 0xFFF00000 + SIZEOF(.text) );
+_final_text_start = ADDR(.text);
+/*
+* Put the data section right after the text in the load image
+* as well as after the relocation unless else specified
+* If the user specified an address, assume it aligned to a
+* 32-byte boundary (typical cache block size). If we're
+* calculating the address, align it to cache block size ourself.
+*/
+DATA_START = DEFINED(DATA_START) ? DATA_START :
+(((ADDR(.text) + SIZEOF(.text)) & 0xFFFFFFE0) + 0x00000020);
+IMAGE_DATA_START = DEFINED(IMAGE_DATA_START) ? IMAGE_DATA_START :
+(((0xFFF00000 + SIZEOF(.text)) & 0xFFFFFFE0) + 0x00000020);
+.data DATA_START : AT (IMAGE_DATA_START)
+{
+_final_data_start = .;
+*(.data)
+*(.data1)
+*(.sdata)
+*(.sdata2)
+*(.got.plt)
+*(.got)
+*(.dynamic)
+*(.fixup);
+_final_data_end = .;
+}
+/* Now save off the start of the data in the image */
+_img_data_start = 0xFFF00000;
+/*
+* Place bss right after the data section.
+*
+* We only define one set of location variables for the BSS because
+* it doesn't actually exist in the image. All we do is go to the
+* final location and zero out an appropriate chunk of memory.
+*/
+.bss (ADDR(.data) + SIZEOF(.data)) :
+{
+_bss_start = .;
+*(.sbss)
+*(.scommon)
+*(.dynbss)
+*(.bss)
+*(COMMON) ;
+_bss_end = . ;
+}
+_end = .;
+/*
+These debug sections are here for information only - they're not going to be
+included in the ROM-RAM copy because it only copies .text, .data, and .bss.
+*/
+.stab 0 : { *(.stab) }
+.stabstr 0 : { *(.stabstr) }
+/* DWARF debug sections */
+.debug 0 : {*(.debug)}
+.debug_srcinfo 0 : {*(.debug_srcinfo)}
+.debug_aranges 0 : {*(.debug_aranges)}
+.debug_pubnames 0 : {*(.debug_pubnames)}
+.debug_sfnames 0 : {*(.debug_sfnames)}
+.line 0 : {*(.line)}
+}

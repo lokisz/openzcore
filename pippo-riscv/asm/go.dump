@@ -1,0 +1,271 @@
+
+go.elf:     file format elf32-powerpc
+
+SYMBOL TABLE:
+ffffe000 l    d  .text	00000000 .text
+ffffc000 l    d  .data	00000000 .data
+ffffe000 l       .text	00000000 core_initial
+ffffe00c l       .text	00000000 main_tests
+ffffe07c l       .text	00000000 test_ok
+ffffe054 l       .text	00000000 test_fail
+ffffe02c l       .text	00000000 test_putchar
+ffffe0c8 l       .text	00000000 dbgexp_handler
+fffffc04 l       .text	00000000 emulate_rom
+ffffff00 l       .text	00000000 exp_vector
+ffffd800 l       .data	00000000 memory0
+ffffd820 l       .data	00000000 memory1
+ffffd840 l       .data	00000000 memory2
+ffffd860 l       .data	00000000 memory3
+ffffd884 l       .data	00000000 memory4
+ffffd888 l       .data	00000000 memory5
+ffffd88c l       .data	00000000 memory6
+ffffd890 l       .data	00000000 memory7
+ffffd8a0 l       .data	00000000 memory8
+ffffd8c8 l       .data	00000000 memory9
+fff02000 g       *ABS*	00000000 _img_text_end
+ffffe000 g       *ABS*	00000000 TEXT_START
+ffffe000 g       .data	00000000 _bss_start
+ffffc000 g       .data	00000000 _final_data_start
+fff00000 g       *ABS*	00000000 _img_data_start
+ffffe000 g       .data	00000000 _bss_end
+ffffe000 g       *ABS*	00000000 IMAGE_TEXT_START
+ffffe000 g       .text	00000000 _final_text_start
+fff00000 g       *ABS*	00000000 _img_text_start
+ffffe000 g       .text	00000000 _start
+ffffe000 g       *ABS*	00000000 _end
+ffffe000 g       .data	00000000 _final_data_end
+ffffc000 g       *ABS*	00000000 DATA_START
+ffffc000 g       *ABS*	00000000 IMAGE_DATA_START
+
+
+
+Disassembly of section .text:
+
+ffffe000 <_final_text_start>:
+ffffe000:	7c 00 02 78 	xor     r0,r0,r0
+ffffe004:	64 04 ff ff 	oris    r4,r0,65535
+ffffe008:	7c 96 f3 a6 	mtspr   982,r4
+
+ffffe00c <main_tests>:
+ffffe00c:	3c 60 ff ff 	lis     r3,-1
+ffffe010:	60 63 c0 00 	ori     r3,r3,49152
+ffffe014:	60 04 ff ff 	ori     r4,r0,65535
+ffffe018:	b0 83 00 00 	sth     r4,0(r3)
+ffffe01c:	80 a3 00 00 	lwz     r5,0(r3)
+ffffe020:	7c 84 28 39 	and.    r4,r4,r5
+ffffe024:	41 82 00 58 	beq-    ffffe07c <test_ok>
+ffffe028:	48 00 00 2c 	b       ffffe054 <test_fail>
+
+ffffe02c <test_putchar>:
+ffffe02c:	7f f0 d3 86 	.long 0x7ff0d386
+ffffe030:	60 00 00 00 	nop
+ffffe034:	60 00 00 00 	nop
+ffffe038:	7c b3 d2 86 	.long 0x7cb3d286
+ffffe03c:	70 a5 00 01 	andi.   r5,r5,1
+ffffe040:	40 82 ff f8 	bne+    ffffe038 <test_putchar+0xc>
+ffffe044:	3c c0 00 00 	lis     r6,0
+ffffe048:	60 c6 00 01 	ori     r6,r6,1
+ffffe04c:	7c d2 d3 86 	.long 0x7cd2d386
+ffffe050:	4e 80 00 20 	blr
+
+ffffe054 <test_fail>:
+ffffe054:	3c 80 00 00 	lis     r4,0
+ffffe058:	60 84 00 46 	ori     r4,r4,70
+ffffe05c:	7c 90 d3 86 	.long 0x7c90d386
+ffffe060:	7c b3 d2 86 	.long 0x7cb3d286
+ffffe064:	70 a5 00 01 	andi.   r5,r5,1
+ffffe068:	40 82 ff f8 	bne+    ffffe060 <test_fail+0xc>
+ffffe06c:	3c c0 00 00 	lis     r6,0
+ffffe070:	60 c6 00 01 	ori     r6,r6,1
+ffffe074:	7c d2 d3 86 	.long 0x7cd2d386
+ffffe078:	48 00 00 00 	b       ffffe078 <test_fail+0x24>
+
+ffffe07c <test_ok>:
+ffffe07c:	3c 80 00 00 	lis     r4,0
+ffffe080:	60 84 00 4f 	ori     r4,r4,79
+ffffe084:	7c 90 d3 86 	.long 0x7c90d386
+ffffe088:	7c b3 d2 86 	.long 0x7cb3d286
+ffffe08c:	70 a5 00 01 	andi.   r5,r5,1
+ffffe090:	40 82 ff f8 	bne+    ffffe088 <test_ok+0xc>
+ffffe094:	3c c0 00 00 	lis     r6,0
+ffffe098:	60 c6 00 01 	ori     r6,r6,1
+ffffe09c:	7c d2 d3 86 	.long 0x7cd2d386
+ffffe0a0:	3c 80 00 00 	lis     r4,0
+ffffe0a4:	60 84 00 4b 	ori     r4,r4,75
+ffffe0a8:	7c 90 d3 86 	.long 0x7c90d386
+ffffe0ac:	7c b3 d2 86 	.long 0x7cb3d286
+ffffe0b0:	70 a5 00 01 	andi.   r5,r5,1
+ffffe0b4:	40 82 ff f8 	bne+    ffffe0ac <test_ok+0x30>
+ffffe0b8:	3c c0 00 00 	lis     r6,0
+ffffe0bc:	60 c6 00 01 	ori     r6,r6,1
+ffffe0c0:	7c d2 d3 86 	.long 0x7cd2d386
+ffffe0c4:	48 00 00 00 	b       ffffe0c4 <test_ok+0x48>
+
+ffffe0c8 <dbgexp_handler>:
+ffffe0c8:	3c 80 00 00 	lis     r4,0
+ffffe0cc:	60 84 00 45 	ori     r4,r4,69
+ffffe0d0:	7c 90 d3 86 	.long 0x7c90d386
+ffffe0d4:	7c b3 d2 86 	.long 0x7cb3d286
+ffffe0d8:	70 a5 00 01 	andi.   r5,r5,1
+ffffe0dc:	40 82 ff f8 	bne+    ffffe0d4 <dbgexp_handler+0xc>
+ffffe0e0:	3c c0 00 00 	lis     r6,0
+ffffe0e4:	60 c6 00 01 	ori     r6,r6,1
+ffffe0e8:	7c d2 d3 86 	.long 0x7cd2d386
+ffffe0ec:	48 00 00 00 	b       ffffe0ec <dbgexp_handler+0x24>
+	...
+
+fffffc04 <emulate_rom>:
+fffffc04:	3c 80 00 00 	lis     r4,0
+fffffc08:	60 84 00 55 	ori     r4,r4,85
+fffffc0c:	7c 90 d3 86 	.long 0x7c90d386
+fffffc10:	7c b3 d2 86 	.long 0x7cb3d286
+fffffc14:	70 a5 00 01 	andi.   r5,r5,1
+fffffc18:	40 82 ff f8 	bne+    fffffc10 <emulate_rom+0xc>
+fffffc1c:	3c c0 00 00 	lis     r6,0
+fffffc20:	60 c6 00 01 	ori     r6,r6,1
+fffffc24:	7c d2 d3 86 	.long 0x7cd2d386
+fffffc28:	48 00 00 00 	b       fffffc28 <emulate_rom+0x24>
+	...
+
+ffffff00 <exp_vector>:
+ffffff00:	60 1e ff 00 	ori     r30,r0,65280
+ffffff04:	60 1f 00 00 	ori     r31,r0,0
+ffffff08:	4b ff e1 c1 	bl      ffffe0c8 <dbgexp_handler>
+ffffff0c:	4c 00 00 66 	.long 0x4c000066
+ffffff10:	60 1e ff 10 	ori     r30,r0,65296
+ffffff14:	60 1f 00 01 	ori     r31,r0,1
+ffffff18:	4b ff e1 b1 	bl      ffffe0c8 <dbgexp_handler>
+ffffff1c:	4c 00 00 66 	.long 0x4c000066
+ffffff20:	60 1e ff 20 	ori     r30,r0,65312
+ffffff24:	60 1f 00 02 	ori     r31,r0,2
+ffffff28:	4b ff e1 a1 	bl      ffffe0c8 <dbgexp_handler>
+ffffff2c:	4c 00 00 64 	rfi
+ffffff30:	60 1e ff 30 	ori     r30,r0,65328
+ffffff34:	60 1f 00 03 	ori     r31,r0,3
+ffffff38:	4b ff e1 91 	bl      ffffe0c8 <dbgexp_handler>
+ffffff3c:	4c 00 00 64 	rfi
+ffffff40:	60 1e ff 40 	ori     r30,r0,65344
+ffffff44:	60 1f 00 04 	ori     r31,r0,4
+ffffff48:	4b ff e1 81 	bl      ffffe0c8 <dbgexp_handler>
+ffffff4c:	4c 00 00 64 	rfi
+ffffff50:	60 1e ff 50 	ori     r30,r0,65360
+ffffff54:	60 1f 00 05 	ori     r31,r0,5
+ffffff58:	4b ff e1 71 	bl      ffffe0c8 <dbgexp_handler>
+ffffff5c:	4c 00 00 64 	rfi
+ffffff60:	60 1e ff 60 	ori     r30,r0,65376
+ffffff64:	60 1f 00 06 	ori     r31,r0,6
+ffffff68:	4b ff e1 61 	bl      ffffe0c8 <dbgexp_handler>
+ffffff6c:	4c 00 00 64 	rfi
+ffffff70:	60 1e ff 70 	ori     r30,r0,65392
+ffffff74:	60 1f 00 07 	ori     r31,r0,7
+ffffff78:	4b ff e1 51 	bl      ffffe0c8 <dbgexp_handler>
+ffffff7c:	4c 00 00 64 	rfi
+ffffff80:	60 1e ff 80 	ori     r30,r0,65408
+ffffff84:	60 1f 00 08 	ori     r31,r0,8
+ffffff88:	4b ff e1 41 	bl      ffffe0c8 <dbgexp_handler>
+ffffff8c:	4c 00 00 64 	rfi
+ffffff90:	60 1e ff 90 	ori     r30,r0,65424
+ffffff94:	60 1f 00 09 	ori     r31,r0,9
+ffffff98:	4b ff e1 31 	bl      ffffe0c8 <dbgexp_handler>
+ffffff9c:	4c 00 00 64 	rfi
+ffffffa0:	60 1e ff a0 	ori     r30,r0,65440
+ffffffa4:	60 1f 00 0a 	ori     r31,r0,10
+ffffffa8:	4b ff e1 21 	bl      ffffe0c8 <dbgexp_handler>
+ffffffac:	4c 00 00 64 	rfi
+ffffffb0:	60 1e ff b0 	ori     r30,r0,65456
+ffffffb4:	60 1f 00 0b 	ori     r31,r0,11
+ffffffb8:	4b ff e1 11 	bl      ffffe0c8 <dbgexp_handler>
+ffffffbc:	4c 00 00 64 	rfi
+ffffffc0:	60 1e ff c0 	ori     r30,r0,65472
+ffffffc4:	60 1f 00 0c 	ori     r31,r0,12
+ffffffc8:	4b ff e1 01 	bl      ffffe0c8 <dbgexp_handler>
+ffffffcc:	4c 00 00 66 	.long 0x4c000066
+ffffffd0:	60 1e ff d0 	ori     r30,r0,65488
+ffffffd4:	60 1f 00 0d 	ori     r31,r0,13
+ffffffd8:	4b ff e0 f1 	bl      ffffe0c8 <dbgexp_handler>
+ffffffdc:	4c 00 00 64 	rfi
+ffffffe0:	60 1e ff e0 	ori     r30,r0,65504
+ffffffe4:	60 1f 00 0e 	ori     r31,r0,14
+ffffffe8:	4b ff e0 e1 	bl      ffffe0c8 <dbgexp_handler>
+ffffffec:	4c 00 00 64 	rfi
+fffffff0:	4b ff e0 d9 	bl      ffffe0c8 <dbgexp_handler>
+fffffff4:	4c 00 00 66 	.long 0x4c000066
+fffffff8:	60 00 00 00 	nop
+fffffffc:	4b ff e0 04 	b       ffffe000 <_final_text_start>
+
+Disassembly of section .data:
+
+ffffc000 <_final_data_start>:
+	...
+
+ffffd800 <memory0>:
+ffffd800:	ff ff d8 00 	.long 0xffffd800
+ffffd804:	ff ff d8 04 	.long 0xffffd804
+ffffd808:	ff ff d8 08 	.long 0xffffd808
+ffffd80c:	ff ff d8 0c 	.long 0xffffd80c
+ffffd810:	ff ff d8 10 	.long 0xffffd810
+ffffd814:	ff ff d8 14 	.long 0xffffd814
+ffffd818:	ff ff d8 18 	.long 0xffffd818
+ffffd81c:	ff ff d8 1c 	.long 0xffffd81c
+
+ffffd820 <memory1>:
+ffffd820:	00 00 00 0f 	.long 0xf
+ffffd824:	ff ff ff f0 	.long 0xfffffff0
+ffffd828:	00 00 00 ff 	.long 0xff
+ffffd82c:	ff ff ff 00 	.long 0xffffff00
+ffffd830:	00 00 ff ff 	.long 0xffff
+ffffd834:	ff ff 00 00 	.long 0xffff0000
+ffffd838:	ff ff ff ff 	fnmadd. f31,f31,f31,f31
+ffffd83c:	00 00 00 00 	.long 0x0
+
+ffffd840 <memory2>:
+ffffd840:	00 00 00 0f 	.long 0xf
+ffffd844:	00 00 00 f0 	.long 0xf0
+ffffd848:	00 00 0f 00 	.long 0xf00
+ffffd84c:	00 00 f0 00 	.long 0xf000
+ffffd850:	00 0f 00 00 	.long 0xf0000
+ffffd854:	00 f0 00 00 	.long 0xf00000
+ffffd858:	0f 00 00 00 	twnei   r0,0
+ffffd85c:	f0 00 00 00 	.long 0xf0000000
+
+ffffd860 <memory3>:
+ffffd860:	ff ff ff f0 	.long 0xfffffff0
+ffffd864:	ff ff ff 0f 	.long 0xffffff0f
+ffffd868:	ff ff f0 ff 	fnmadd. f31,f31,f3,f30
+ffffd86c:	ff ff 0f ff 	fnmadd. f31,f31,f31,f1
+ffffd870:	ff f0 ff ff 	fnmadd. f31,f16,f31,f31
+ffffd874:	ff 0f ff ff 	fnmadd. f24,f15,f31,f31
+ffffd878:	f0 ff ff ff 	.long 0xf0ffffff
+ffffd87c:	0f ff ff ff 	twi     31,r31,-1
+ffffd880:	00 00 00 00 	.long 0x0
+
+ffffd884 <memory4>:
+ffffd884:	62 61 00 00 	ori     r1,r19,0
+
+ffffd888 <memory5>:
+ffffd888:	ff ff 11 11 	.long 0xffff1111
+
+ffffd88c <memory6>:
+ffffd88c:	76 54 34 56 	andis.  r20,r18,13398
+
+ffffd890 <memory7>:
+ffffd890:	48 65 6c 6c 	b       6544fc <_img_data_start-0xff8abb04>
+ffffd894:	6f 2c 20 57 	xoris   r12,r25,8279
+ffffd898:	6f 72 6c 64 	xoris   r18,r27,27748
+ffffd89c:	00 00 00 00 	.long 0x0
+
+ffffd8a0 <memory8>:
+ffffd8a0:	30 31 32 33 	addic   r1,r17,12851
+ffffd8a4:	34 35 36 37 	addic.  r1,r21,13879
+ffffd8a8:	38 39 61 62 	addi    r1,r25,24930
+ffffd8ac:	63 64 65 66 	ori     r4,r27,25958
+ffffd8b0:	67 68 69 6a 	oris    r8,r27,26986
+ffffd8b4:	6b 6c 6d 6e 	xori    r12,r27,28014
+ffffd8b8:	6f 70 71 72 	xoris   r16,r27,29042
+ffffd8bc:	73 74 75 76 	andi.   r20,r27,30070
+ffffd8c0:	77 78 79 7a 	andis.  r24,r27,31098
+ffffd8c4:	00 00 00 00 	.long 0x0
+
+ffffd8c8 <memory9>:
+ffffd8c8:	ff ff ff ff 	fnmadd. f31,f31,f31,f31
+	...

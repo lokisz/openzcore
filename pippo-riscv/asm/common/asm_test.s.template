@@ -1,0 +1,99 @@
+/*
+ * File:        asm_test.s.template
+ * Project:     pippo
+ * Author:      kiss@pwrsemi
+ * Maintainer:  kiss@pwrsemi
+ * Checker:
+ * Description:
+ *              Template file for powerpc assembler program
+ */
+
+#include "asm_test.h"
+#include "processor.h"
+
+
+.text
+.global _start
+
+    .space (0x0100) // hreset vector: 0x00100
+_start:
+    b system_reset
+
+    .space (0x05fc) // 0x0700
+done:
+    b done
+
+    .space (0x02fc) // 0x0a00
+err_vector:
+    b err_vector
+
+    .space (0x00fc) // 0x0b00
+touch_vector:
+    addis r29,0,0x0FFFFFFC@h       // store FLAG_NUM to dumpmem
+    ori r29,r29,0x0FFFFFFC@l
+    stw r30, 0(r29)
+    blr
+
+    .space (0x24f0) // space past exception space to 0x3000
+// here is the real startup code, located outside the exception vector space
+// always set r0 to 0
+system_reset:
+    addis r0,0,0x0000
+
+    // Note MSR state at power-up:
+    // all exceptions disabled, address translation off,
+    // Exception prefix at 0xfff00000, FP disabled
+    ori r5,r0,0x0040
+    mtmsr r5
+    isync
+
+// configure 60x bus to zero-level pipelining
+    addis r4,0,BCR_ADDR@h
+    ori r4,r4,BCR_ADDR@l
+    lwz r5,0(r4)
+    oris r5,r5,0x0080
+    stw r5,0(r4)
+
+//
+//
+// Here is your test program
+//
+//
+
+//
+// Note: when using touch_vector to flag your program's trace,
+//       you should comply following instructions:
+//          1, Before "bnel", you should write your flag into r30,
+//             then "touch_vector" handler will dump it on bus
+//          2, You can choose any value as your FLAG_NUM, but you'd
+//             better use a meaningful value, for example "The address
+//             of regiter you accessed"
+//
+// e.g:
+//      -------------------------
+//      addis r30,0,FLAG_NUM@h
+//      ori r30,r30,FLAG_NUM@l
+//      bnel touch_vector
+//      -------------------------
+//
+
+
+//
+// Note: "b done" must place in the end of branch of your program flow.
+//       It indicate the program complete successfully.
+//       After entering "done vector", the whole simulation will finish.
+//
+program_end:
+    b done
+
+//
+// Note: when program run into or "err_vector" , NC-sim will:
+//      1. stop simulation
+//      2. display debug information
+//
+err_handler:
+    addis r0,0,ERR_HANDLER_ADDR@h
+    ori r0,r0,ERR_HANDLER_ADDR@l
+    mtlr r0
+    blr
+
