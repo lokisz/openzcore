@@ -3,11 +3,13 @@ openzcore
 
 * Introduction
 
-zCore is designed at PWRSemi(2009-2011), a startup try to develop clean-room PowerPC processor for consumer market. Now The unfinished product is open-sourced.
+zCore is designed at PWRSemi(2010-2011), a startup try to develop clean-room PowerPC processor for consumer market. Now The unfinished product and company file(biz plan...) is open-sourced.
 
 * File Directories
 
-    pippo-0.9: powerpc isa
+    startup.biz: business file
+    
+    pippo-0.9: powerpc isa product prototype
 
     /asm            assembly example, show how to layout powerpc program, to run on pippo simulation or fpga prototyping
 
@@ -40,6 +42,8 @@ zCore is designed at PWRSemi(2009-2011), a startup try to develop clean-room Pow
     
 * Acknowledge:
     Some rtl logic is directly from previous great open source processor projects, such as Sun Microsystem's MicroSPARC/OpenSPARC T1/T2, Gaisler research's LEON, OpenRISC...
+    
+    SPECIAL THANKS TO OUR ANGEL INVESTOR AFAN
     
 *** IMPORTANT ***
 
